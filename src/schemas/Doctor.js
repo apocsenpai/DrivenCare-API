@@ -1,0 +1,17 @@
+import Joi from "joi";
+import { nameRegex } from "../utils/constants/regex.js";
+
+const doctorSchema = Joi.object({
+  name: Joi.string().pattern(nameRegex).required(),
+  email: Joi.string().email({
+    minDomainSegments: 2,
+    tlds: { allow: ["com", "net", "br"] },
+  }).required(),
+  password: Joi.string().required(),
+  specialty: Joi.string().required(),
+  address: Joi.string().required(),
+  checkIn: Joi.date().required(),
+  checkOut: Joi.date().required(),
+});
+
+export default doctorSchema;
