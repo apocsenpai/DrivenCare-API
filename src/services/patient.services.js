@@ -2,7 +2,7 @@ import patientRepository from "../repositories/patient.repository.js";
 import bcrypt from "bcrypt";
 import saltRounds from "../utils/constants/saltRounds.js";
 import dotenv from "dotenv";
-import generateToken from "../utils/functions/generateToken.js";
+import generateToken from "../utils/functions/token/generateToken.js";
 import errors from "../errors/index.js";
 
 dotenv.config();

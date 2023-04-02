@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { nameRegex } from "../utils/constants/regex.js";
+import { nameRegex, timeRegex } from "../utils/constants/regex.js";
 
 const doctorSchema = Joi.object({
   name: Joi.string().pattern(nameRegex).required(),
@@ -10,8 +10,8 @@ const doctorSchema = Joi.object({
   password: Joi.string().required(),
   specialty: Joi.string().required(),
   address: Joi.string().required(),
-  checkIn: Joi.date().required(),
-  checkOut: Joi.date().required(),
+  checkIn: Joi.string().pattern(timeRegex).required(),
+  checkOut: Joi.string().pattern(timeRegex).required(),
 });
 
 export default doctorSchema;

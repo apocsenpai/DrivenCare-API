@@ -21,4 +21,8 @@ async function findByEmail({ email }) {
   return db.query(`SELECT * FROM doctors WHERE email = $1`, [email]);
 }
 
-export default { create, findByEmail };
+async function findById(id) {
+  return db.query(`SELECT id FROM doctors WHERE id = $1`, [id]);
+}
+
+export default { create, findByEmail, findById };

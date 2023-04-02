@@ -11,4 +11,8 @@ async function findByEmail({ email }) {
   return db.query(`SELECT * FROM patients WHERE email = $1`, [email]);
 }
 
-export default { create, findByEmail };
+async function findById(id) {
+  return db.query(`SELECT id FROM patients WHERE id = $1`, [id]);
+}
+
+export default { create, findByEmail, findById };
