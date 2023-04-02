@@ -19,7 +19,7 @@ patientRoutes.post(
 );
 patientRoutes.get(
   "/appointments",
-  authenticate,
+  authenticate('Patient'),
   patientControllers.findAppointmentsById
 );
 

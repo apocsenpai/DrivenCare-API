@@ -25,4 +25,24 @@ async function create({ doctorId, patientId, date, time }) {
   );
 }
 
-export default { findByDateAndTime, create };
+async function updateConfirmed({ appointmentId, doctorId }) {
+  return db.query(`
+  UPDATE appointments
+  SET confirmed = true
+  WHERE id = $1 AND doctor_id = $2 `, [
+    appointmentId,
+    doctorId,
+  ]);
+}
+
+async function updateCanceled({ appointmentId, doctorId }) {
+  return db.query(`
+  UPDATE appointments
+  SET canceled = true, confirmed = false
+  WHERE id = $1 AND doctor_id = $2 `, [
+    appointmentId,
+    doctorId,
+  ]);
+}
+
+export default { findByDateAndTime, create, updateConfirmed, updateCanceled };

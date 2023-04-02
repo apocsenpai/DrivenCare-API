@@ -17,4 +17,16 @@ async function create({ doctorId, patientId, date, time }) {
   await appointmentRepository.create({ doctorId, patientId, date, time });
 }
 
-export default { create };
+async function updateConfirmed({ appointmentId, doctorId }) {
+  if (!Number(appointmentId)) throw errors.unprocessableContentError();
+
+  await appointmentRepository.updateConfirmed({ appointmentId, doctorId });
+}
+
+async function updateCanceled({ appointmentId, doctorId }) {
+  if (!Number(appointmentId)) throw errors.unprocessableContentError();
+
+  await appointmentRepository.updateCanceled({ appointmentId, doctorId });
+}
+
+export default { create, updateConfirmed, updateCanceled };

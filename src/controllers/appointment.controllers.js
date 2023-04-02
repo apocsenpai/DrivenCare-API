@@ -14,4 +14,29 @@ async function create(req, res, next) {
   }
 }
 
-export default { create };
+async function updateConfirmed(req, res, next) {
+  const { appointmentId } = req.params;
+  const {id: doctorId} = res.locals.user;
+  try {
+    await appointmentServices.updateConfirmed({appointmentId, doctorId});
+
+    res.send({ message: "Updated! :)" });
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function updateCanceled(req, res, next) {
+  const { appointmentId } = req.params;
+  const {id: doctorId} = res.locals.user;
+
+  try {
+    await appointmentServices.updateCanceled({appointmentId, doctorId});
+
+    res.send({ message: "Updated! :)" });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export default { create, updateConfirmed, updateCanceled };

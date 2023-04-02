@@ -6,11 +6,11 @@ import doctorRepository from "../../../repositories/doctor.repository.js";
 
 dotenv.config();
 
-const verifyToken = async (token) =>
+const verifyToken = async (token, permissionKey) =>
   jwt.verify(token, process.env.SECRET_JWT, async (error, decoded) => {
     const { id, status } = decoded;
 
-    const isValidStatus = status === "Patient" || status === "Doctor";
+    const isValidStatus = status === permissionKey;
 
     if (error || !isValidStatus || !id) throw errors.unauthorizedError();
 

@@ -6,7 +6,9 @@ import appointmentSchema from "../schemas/Appointment.js";
 
 const appointmentsRoutes = Router();
 
-appointmentsRoutes.use(authenticate);
-appointmentsRoutes.post("/:doctorId", validateSchema(appointmentSchema), appointmentControllers.create);
+appointmentsRoutes.post("/:doctorId", authenticate('Patient'), validateSchema(appointmentSchema), appointmentControllers.create);
+
+appointmentsRoutes.put("/:appointmentId/confirm", authenticate('Doctor'), appointmentControllers.updateConfirmed);
+appointmentsRoutes.put("/:appointmentId/cancel", authenticate('Doctor'), appointmentControllers.updateCanceled);
 
 export default appointmentsRoutes;
