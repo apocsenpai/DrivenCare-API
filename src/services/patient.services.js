@@ -4,6 +4,7 @@ import saltRounds from "../utils/constants/saltRounds.js";
 import dotenv from "dotenv";
 import generateToken from "../utils/functions/token/generateToken.js";
 import errors from "../errors/index.js";
+import dayjs from "dayjs";
 
 dotenv.config();
 
@@ -31,4 +32,20 @@ async function signIn({ email, password }) {
   return generateToken({ id: user.id, status: "Patient" });
 }
 
-export default { create, signIn };
+async function findAppointmentsById({id}){
+
+
+  const { rows: appointments, rowCount } =
+    await patientRepository.findAppointmentsByPatientId({
+      id,
+    });
+
+  if (!rowCount) throw errors.appointmentsNotFound();
+
+  return appointments.map((a) => ({
+    ...a,
+    date: dayjs(a.date).format("DD/MM/YYYY"),
+  }));
+}
+
+export default { create, signIn, findAppointmentsById };

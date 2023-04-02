@@ -11,13 +11,22 @@ async function authenticate(req, res, next) {
   const [schema, token] = authorizationParts;
   if (schema !== "Bearer") throw errors.unauthorizedError();
 
+
   try {
     res.locals.user = await verifyToken(token);
-    
+
     next();
   } catch (error) {
     next(error);
   }
+}
+
+function authenticatePatient(){
+
+}
+
+function authenticateDoctor(){
+  
 }
 
 export default authenticate;

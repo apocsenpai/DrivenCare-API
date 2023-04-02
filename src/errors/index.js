@@ -45,17 +45,23 @@ function invalidAppointmentTime() {
 function invalidAppointmentDate() {
   return {
     name: "InvalidAppointmentDate",
-    message:
-      "Appointment date must be scheduled between Mondays and Fridays",
+    message: "Appointment date must be scheduled between Mondays and Fridays",
   };
 }
 
-function duplicatedAppointmentError(appointment){
+function duplicatedAppointmentError(appointment) {
   return {
-    name: 'DuplicatedAppointmentError',
-    message: 'Appointment already exists, try another one!',
-    appointment
-  }
+    name: "DuplicatedAppointmentError",
+    message: "Appointment already exists, try another one!",
+    appointment,
+  };
+}
+
+function appointmentsNotFound() {
+  return {
+    name: "AppointmentsNotFound",
+    message: "Appointments not found",
+  };
 }
 
 export default {
@@ -66,5 +72,6 @@ export default {
   unauthorizedError,
   invalidAppointmentTime,
   invalidAppointmentDate,
-  duplicatedAppointmentError
+  duplicatedAppointmentError,
+  appointmentsNotFound,
 };

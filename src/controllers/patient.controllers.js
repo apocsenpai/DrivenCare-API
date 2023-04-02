@@ -24,4 +24,16 @@ async function signIn(req, res, next) {
   }
 }
 
-export default { create, signIn };
+async function findAppointmentsById(req, res, next){
+  const { id } = res.locals.user;
+
+  try {
+    const appointments = await patientServices.findAppointmentsById({ id });
+
+    res.send(appointments);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export default { create, signIn, findAppointmentsById };

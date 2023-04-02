@@ -1,7 +1,12 @@
 import httpStatus from "http-status";
 
-const { UNAUTHORIZED, UNPROCESSABLE_ENTITY, CONFLICT, INTERNAL_SERVER_ERROR } =
-  httpStatus;
+const {
+  UNAUTHORIZED,
+  UNPROCESSABLE_ENTITY,
+  CONFLICT,
+  INTERNAL_SERVER_ERROR,
+  NOT_FOUND,
+} = httpStatus;
 
 function handleServerErrors(err, req, res, next) {
   if (
@@ -23,6 +28,9 @@ function handleServerErrors(err, req, res, next) {
     err.name === "UnauthorizedError"
   )
     return res.status(UNAUTHORIZED).send({ message: err.message });
+
+  if (err.name === "AppointmentsNotFound")
+    return res.status(NOT_FOUND).send({ message: err.message });
 
   return res
     .status(INTERNAL_SERVER_ERROR)

@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import generateToken from "../utils/functions/token/generateToken.js";
 import errors from "../errors/index.js";
 import isCorrectAvailability from "../utils/functions/isCorrectAvailability.js";
+import dayjs from "dayjs";
 
 dotenv.config();
 
@@ -51,4 +52,28 @@ async function signIn({ email, password }) {
   return generateToken({ id: user.id, status: "Doctor" });
 }
 
-export default { create, signIn };
+async function findAppointmentsById({ id }) {
+  const { rows: appointments, rowCount } =
+    await doctorRepository.findAppointmentsByDoctorId({
+      id,
+    });
+
+  if (!rowCount) throw errors.appointmentsNotFound();
+
+  return appointments.map((a) => ({
+    ...a,
+    date: dayjs(a.date).format("DD/MM/YYYY"),
+  }));
+}
+
+async function findByParams({ name = null, specialty = null, address = null }) {
+  const isEmptyParams = !name && !specialty && !address;
+ 
+  const { rows: doctors } = await (isEmptyParams
+    ? doctorRepository.findAll()
+    : doctorRepository.findByParams({ name, specialty, address }));
+
+  return doctors;
+}
+
+export default { create, signIn, findAppointmentsById, findByParams };

@@ -15,4 +15,18 @@ async function findById(id) {
   return db.query(`SELECT id FROM patients WHERE id = $1`, [id]);
 }
 
-export default { create, findByEmail, findById };
+async function findAppointmentsByPatientId({ id }) {
+  return db.query(
+    `
+  SELECT a.date, a.time, d.name, d.specialty FROM appointments a
+  JOIN patients p
+  ON p.id = a.patient_id
+  JOIN doctors d
+  ON d.id = a.doctor_id
+  WHERE a.patient_id = $1
+`,
+    [id]
+  );
+}
+
+export default { create, findByEmail, findById, findAppointmentsByPatientId };

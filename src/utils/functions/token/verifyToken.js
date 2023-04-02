@@ -22,7 +22,7 @@ const verifyToken = async (token) =>
 
     if (!user) throw errors.unauthorizedError();
 
-    return user;
+    return {...user, status};
   });
 
 export default verifyToken;

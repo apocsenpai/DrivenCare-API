@@ -33,4 +33,32 @@ async function signIn(req, res, next) {
   }
 }
 
-export default { create, signIn };
+async function findAppointmentsById(req, res, next) {
+  const { id } = res.locals.user;
+
+  try {
+    const appointments = await doctorServices.findAppointmentsById({ id });
+
+    res.send(appointments);
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function findByParams(req, res, next) {
+  const { name, specialty, address } = req.query;
+  
+  try {
+    const doctors = await doctorServices.findByParams({
+      name,
+      specialty,
+      address,
+    });
+
+    res.send(doctors);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export default { create, signIn, findAppointmentsById, findByParams };
