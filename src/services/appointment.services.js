@@ -1,10 +1,21 @@
 import errors from "../errors/index.js";
 import appointmentRepository from "../repositories/appointment.repository.js";
+import doctorRepository from "../repositories/doctor.repository.js";
 import handleAppointmentDate from "../utils/functions/appointments/handleAppointmentDate.js";
 import handleAppointmentTime from "../utils/functions/appointments/handleAppointmentTime.js";
 
 async function create({ doctorId, patientId, date, time }) {
-  if (!handleAppointmentTime(time)) throw errors.invalidAppointmentTime();
+  const {
+    rows: [doctor],
+    rowCount,
+  } = await doctorRepository.findById(doctorId);
+
+  if (!rowCount) errors.unauthorizedError();
+
+  const { checkin, checkout } = doctor;
+
+  if (!handleAppointmentTime({ time, checkin, checkout }))
+    throw errors.invalidAppointmentTime();
 
   if (!handleAppointmentDate(date)) throw errors.invalidAppointmentDate();
 

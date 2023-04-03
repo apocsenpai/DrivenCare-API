@@ -22,7 +22,7 @@ async function findByEmail({ email }) {
 }
 
 async function findById(id) {
-  return db.query(`SELECT id FROM doctors WHERE id = $1`, [id]);
+  return db.query(`SELECT id, checkin, checkout FROM doctors WHERE id = $1`, [id]);
 }
 
 async function findAppointmentsByDoctorId({ id }) {
