@@ -33,7 +33,7 @@ async function findAppointmentsByDoctorId({ id }) {
     ON p.id = a.patient_id
     JOIN doctors d
     ON d.id = a.doctor_id
-    WHERE a.doctor_id = $1
+    WHERE a.doctor_id = $1 AND a.date >= NOW() AND a.canceled = false
   `,
     [id]
   );
@@ -59,6 +59,20 @@ async function findByParams({ name, specialty, address }) {
   );
 }
 
+async function findAppointmentsHistoric({ id }) {
+  return db.query(
+    `
+  SELECT a.date, a.time, d.name, d.specialty FROM appointments a
+  JOIN patients p
+  ON p.id = a.patient_id
+  JOIN doctors d
+  ON d.id = a.doctor_id
+  WHERE a.doctor_id = $1 AND a.date < NOW() AND a.canceled = false AND a.confirmed = true
+`,
+    [id]
+  );
+}
+
 export default {
   create,
   findByEmail,
@@ -66,4 +80,5 @@ export default {
   findAppointmentsByDoctorId,
   findAll,
   findByParams,
+  findAppointmentsHistoric
 };

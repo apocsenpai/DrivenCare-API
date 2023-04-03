@@ -19,9 +19,15 @@ doctorRoutes.post(
 );
 doctorRoutes.get(
   "/appointments",
-  authenticate('Doctor'),
+  authenticate("Doctor"),
   doctorControllers.findAppointmentsById
 );
-doctorRoutes.get("/", authenticate('Patient'), doctorControllers.findByParams);
+doctorRoutes.get(
+  "/appointments/historic",
+  authenticate("Doctor"),
+  doctorControllers.findAppointmentsHistoric
+);
+
+doctorRoutes.get("/", authenticate("Patient"), doctorControllers.findByParams);
 
 export default doctorRoutes;

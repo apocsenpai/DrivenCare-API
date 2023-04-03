@@ -36,4 +36,16 @@ async function findAppointmentsById(req, res, next){
   }
 }
 
-export default { create, signIn, findAppointmentsById };
+async function findAppointmentsHistoric(req, res, next){
+  const { id } = res.locals.user;
+
+  try {
+    const appointments = await patientServices.findAppointmentsHistoric({ id });
+
+    res.send(appointments);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export default { create, signIn, findAppointmentsById, findAppointmentsHistoric };

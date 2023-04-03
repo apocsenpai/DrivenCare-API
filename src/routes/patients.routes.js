@@ -19,8 +19,13 @@ patientRoutes.post(
 );
 patientRoutes.get(
   "/appointments",
-  authenticate('Patient'),
+  authenticate("Patient"),
   patientControllers.findAppointmentsById
+);
+patientRoutes.get(
+  "/appointments/historic",
+  authenticate("Patient"),
+  patientControllers.findAppointmentsHistoric
 );
 
 export default patientRoutes;

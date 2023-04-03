@@ -47,7 +47,7 @@ async function findAppointmentsById(req, res, next) {
 
 async function findByParams(req, res, next) {
   const { name, specialty, address } = req.query;
-  
+
   try {
     const doctors = await doctorServices.findByParams({
       name,
@@ -61,4 +61,22 @@ async function findByParams(req, res, next) {
   }
 }
 
-export default { create, signIn, findAppointmentsById, findByParams };
+async function findAppointmentsHistoric(req, res, next) {
+  const { id } = res.locals.user;
+
+  try {
+    const appointments = await doctorServices.findAppointmentsHistoric({ id });
+
+    res.send(appointments);
+  } catch (error) {
+    next(error);
+  }
+}
+
+export default {
+  create,
+  signIn,
+  findAppointmentsById,
+  findByParams,
+  findAppointmentsHistoric,
+};

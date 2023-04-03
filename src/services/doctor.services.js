@@ -68,7 +68,7 @@ async function findAppointmentsById({ id }) {
 
 async function findByParams({ name = null, specialty = null, address = null }) {
   const isEmptyParams = !name && !specialty && !address;
- 
+
   const { rows: doctors } = await (isEmptyParams
     ? doctorRepository.findAll()
     : doctorRepository.findByParams({ name, specialty, address }));
@@ -76,4 +76,22 @@ async function findByParams({ name = null, specialty = null, address = null }) {
   return doctors;
 }
 
-export default { create, signIn, findAppointmentsById, findByParams };
+async function findAppointmentsHistoric({ id }) {
+  const { rows: appointments } =
+    await doctorRepository.findAppointmentsHistoric({
+      id,
+    });
+
+  return appointments.map((a) => ({
+    ...a,
+    date: dayjs(a.date).format("DD/MM/YYYY"),
+  }));
+}
+
+export default {
+  create,
+  signIn,
+  findAppointmentsById,
+  findByParams,
+  findAppointmentsHistoric,
+};

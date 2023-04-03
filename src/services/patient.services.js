@@ -32,9 +32,7 @@ async function signIn({ email, password }) {
   return generateToken({ id: user.id, status: "Patient" });
 }
 
-async function findAppointmentsById({id}){
-
-
+async function findAppointmentsById({ id }) {
   const { rows: appointments, rowCount } =
     await patientRepository.findAppointmentsByPatientId({
       id,
@@ -48,4 +46,21 @@ async function findAppointmentsById({id}){
   }));
 }
 
-export default { create, signIn, findAppointmentsById };
+async function findAppointmentsHistoric({ id }) {
+  const { rows: appointments } =
+    await patientRepository.findAppointmentsHistoric({
+      id,
+    });
+
+  return appointments.map((a) => ({
+    ...a,
+    date: dayjs(a.date).format("DD/MM/YYYY"),
+  }));
+}
+
+export default {
+  create,
+  signIn,
+  findAppointmentsById,
+  findAppointmentsHistoric,
+};
